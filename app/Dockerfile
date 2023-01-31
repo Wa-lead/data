@@ -17,5 +17,5 @@ COPY . .
 EXPOSE 8000
 
 # Run the application
-CMD ["uvicorn", "main:app", "--host", "8.213.16.146", "8000"]
+CMD ["uvicorn", "main:app", "--host", "172.17.0.1", "8000"]
 
