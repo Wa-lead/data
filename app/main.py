@@ -26,7 +26,11 @@ def return_data():
         cursor.execute(query)
         result = cursor.fetchall()
         cnx.close()
-        img = subprocess.run(["./ossutil64", "sign",f"oss://cdt-bucket/{id}.jpg"], capture_output=True, text=True).stdout
+        process = subprocess.Popen(["./ossutil64", "sign",f"oss://cdt-bucket/{id}.jpg"], stdout=subprocess.PIPE)
+        img, _ = process.communicate()
+        img = img.decode('utf-8').strip()
+        img = img.split("\n\n")[0]
+        img = img.replace('%'," ")
         result= dict(zip(cdt_columns, np.array(result[0]).T))
         result['intersts'] = eval(result['intersts'])
         result['courses'] = eval(result['courses'])
