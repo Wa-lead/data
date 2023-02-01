@@ -1,6 +1,7 @@
 import mysql.connector
 from flask import Flask, request
 import numpy as np
+import subprocess
 
 cdt_columns = ['name', 'id', 'degree', 'field_of_study', 'university', 'graduation_year', 'courses',
            'health_history', 'intersts', 'car', 'house', 'job', 'city', 'country', 'date_of_birth', 
@@ -25,9 +26,11 @@ def return_data():
         cursor.execute(query)
         result = cursor.fetchall()
         cnx.close()
+        img = subprocess.run(["./ossutil64", "sign",f"oss://cdt-bucket/{id}.jpg"], capture_output=True, text=True).stdout
         result= dict(zip(cdt_columns, np.array(result[0]).T))
         result['intersts'] = eval(result['intersts'])
         result['courses'] = eval(result['courses'])
+        result['image'] = img
         return result
         
         
