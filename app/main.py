@@ -1,4 +1,3 @@
-from fastapi import FastAPI, File, UploadFile
 import mysql.connector
 from flask import Flask, request
 import numpy as np
